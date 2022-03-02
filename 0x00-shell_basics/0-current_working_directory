@@ -1,2 +1,2 @@
-#!/usr/bin/bash
-echo "hello there"
+#!/bin/bash
+pwd
