@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "/tmp/correction/3611472051002219624788729084899887513859_5/205/5926/0x00-shell_basics"
+echo "$PATH"
