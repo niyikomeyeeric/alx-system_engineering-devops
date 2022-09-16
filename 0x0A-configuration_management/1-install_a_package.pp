@@ -1,6 +1,5 @@
-# installs the package puppet-lint
-package { 'puppet-lint':
+# Install flask 2.1.0 modified
+package { 'flask':
   ensure   => '2.1.0',
-  name     => 'puppet-lint',
-  provider => 'gem',
+  provider =>  pip3
 }
