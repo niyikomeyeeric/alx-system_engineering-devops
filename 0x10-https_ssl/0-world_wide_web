@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
-# Add subdomains to my domain and print subdomain information: [hostname[domain/zone]]
-#Domain=$1
-#SubDomain=$2
+# shellcheck disable=SC2086
+# Bash script that will display information about subdomains.
 
-to_record () {
-    dig +nocmd "${1}" +noall +answer | awk '{ print $4 }'
+excute () {
+        RECORD_TYPE=$(dig "$2"."$1" | awk 'BEGIN{OFS=" ";} /^'$2'/{print $4}')
+        DESTINATION=$(dig "$2"."$1" | awk 'BEGIN{OFS=" ";} /^'$2'/{print $5}')
+        echo "The subdomain $2 is a $RECORD_TYPE record and points to $DESTINATION"
 }
-
-to_ip () {
-    dig "${1}" +short
+domain=$1
+subdomain=$2
+sub=( www lb-01 web-01 web-02 )
+check () {
+    if [[ $subdomain == "" ]]
+    then
+        for x in "${sub[@]}"
+        do
+            excute "$domain" "$x"
+        done
+    else
+        excute "$domain" "$subdomain"
+    fi
+    return 0
 }
-
-# Information subdomains display.
-result_record="$(to_record "${1}")"
-if [ $# -eq 1 ]; then
-    echo "The subdomain www is a $result_record record and points to $(to_ip www."${1}")"
-    echo "The subdomain lb-01 is a $result_record record and points to $(to_ip lb-01."${1}")"
-    echo "The subdomain web-01 is a $result_record record and points to $(to_ip web-01."${1}")"
-    echo "The subdomain web-02 is a $result_record record and points to $(to_ip web-02."${1}")"
-else
-    result_destination="$(to_ip "${2}"."${1}")"
-    echo "The subdomain ${2} is a $result_record record and points to $result_destination"
-# Output: The subdomain [SUB_DOMAIN] is a [RECORD_TYPE] record and points to [DESTINATION]
-fi
+check
