@@ -1,6 +1,6 @@
 # Postmortem
 
-At approximately 08:30  West African Time (WAT), an outage occurred on an isolated
+At approximately 08:30  East African Time (EAT), an outage occurred on an isolated
 Ubuntu 14.04 container running an Nginx web server. GET requests on the server led to
 `500 Internal Server Error`'s, when the expected response was an HTML file defining a
 simple website.
